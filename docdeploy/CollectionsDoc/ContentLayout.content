@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Topics>
+  <Topic id="84657ee5-cdda-4cbf-ba3d-a5b9ce1b587b" visible="True" isDefault="true" title="Welcome to the NerdyDuck.Collections Wiki">
+    <HelpKeywords>
+      <HelpKeyword index="K" term="Welcome" />
+    </HelpKeywords>
+  </Topic>
+  <Topic id="4636270d-15aa-429f-b6e2-65e494cf8cc0" visible="True" isExpanded="true" title="Version History">
+    <HelpKeywords>
+      <HelpKeyword index="K" term="version, history" />
+    </HelpKeywords>
+    <Topic id="dc1f8974-091e-4d82-99ab-b73482081b05" visible="True" isSelected="true" title="Version 1.0.0">
+      <HelpKeywords>
+        <HelpKeyword index="K" term="version, 1.0.0" />
+      </HelpKeywords>
+    </Topic>
+  </Topic>
+</Topics>
