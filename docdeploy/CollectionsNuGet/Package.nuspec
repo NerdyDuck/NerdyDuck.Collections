@@ -2,11 +2,12 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
 	<metadata minClientVersion="3.2">
 		<id>NerdyDuck.Collections</id>
-		<version>1.0.0</version>
+		<version>1.0.1</version>
 		<title>NerdyDuck Collections</title>
 		<authors>Daniel Kopp</authors>
 		<description>This library provides a set of specialized collections, e.g. for multi-threading purposes.</description>
 		<releaseNotes>
+			v1.0.1: Fixed: Wrong build action for Resources.tt breaks NuGet package for UWP.
 			v1.0.0: First release
 		</releaseNotes>
 		<summary>Specialized collections for .NET 4.6+ and UWP.</summary>

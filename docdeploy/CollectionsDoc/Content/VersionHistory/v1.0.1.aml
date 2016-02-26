@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="e7d7e7b9-ffa3-4813-ac5b-08b94b795136" revisionNumber="1">
+	<developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
+		<introduction>
+			<para>
+				Version 1.0.1 was released on 2016-02-26.
+			</para>
+		</introduction>
+
+		<section>
+			<title>Changes in This Release</title>
+			<content>
+
+				<list class="bullet">
+					<listItem>
+						<para>Fixed: Wrong build action for Resources.tt breaks NuGet package for UWP, because the file is not part of package, but required as payload.</para>
+					</listItem>
+
+				</list>
+
+			</content>
+		</section>
+
+		<relatedTopics>
+			<link xlink:href="4636270d-15aa-429f-b6e2-65e494cf8cc0" />
+		</relatedTopics>
+
+	</developerConceptualDocument>
+</topic>

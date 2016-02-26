@@ -19,7 +19,7 @@
  * <assembly name="NerdyDuck.Collections">
  * Specialized collections for .NET
  * </assembly>
- * <file name="Resources.cs" date="2016-02-16">
+ * <file name="Resources.cs" date="2016-02-26">
  * Helper class to access localized string resources.
  * </file>
  ******************************************************************************/

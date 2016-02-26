@@ -140,10 +140,10 @@
     <EmbeddedResource Include="Collections.rd.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Properties\Resources.tt">
+    <None Include="Properties\Resources.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Resources.cs</LastGenOutput>
-    </Content>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

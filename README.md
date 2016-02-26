@@ -22,5 +22,8 @@ The neutral resource language for all texts is English (en-US). Currently, the o
 For examples and a complete class reference, please see the [Wiki](../../wiki/). :exclamation: **Work in progress**.
 
 #### History
+##### 2016-02-26 / v1.0.1 / DAK
+- Fixed: Wrong build action for Resources.tt breaks NuGet package for UWP, because the file is not part of package, but required as payload.
+
 ##### 2016-02-16 / v1.0.0 / DAK
 - First release. Contains (Non)BlockingConcurrentList&lt;T&gt; and (Non)BlockingConcurrentDictionary&lt;T&gt;.
