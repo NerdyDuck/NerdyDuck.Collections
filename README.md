@@ -22,6 +22,12 @@ The neutral resource language for all texts is English (en-US). Currently, the o
 For examples and a complete class reference, please see the [Wiki](../../wiki/). :exclamation: **Work in progress**.
 
 #### History
+#####TBD / vNext / DAK
+- Added deployment project to compile all projects and create/push the NuGet package in one go. Removed separate NuGet project. Removes also dependency on NuGet Packager Template.
+- Extracted file signing into its own reusable MSBuild target file.
+- Extracted resource generation for desktop project into its own reusable MSBuild target file.
+- Created a MSBuild target for automatic T4 transformations on build. Removes dependency on Visual Studio Modeling SDK.
+
 ##### 2016-02-26 / v1.0.1 / DAK
 - Fixed: Wrong build action for Resources.tt breaks NuGet package for UWP, because the file is not part of package, but required as payload.
 
