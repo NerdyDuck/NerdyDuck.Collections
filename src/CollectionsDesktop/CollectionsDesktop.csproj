@@ -38,12 +38,26 @@
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
     <AssemblyOriginatorKeyFile>..\..\NerdyDuck.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResWFiles Include="..\CollectionsUniversal\Strings\en-US\Resources.resw">
+      <Link>Properties\en-US\Resources.resw</Link>
+      <ResourceName>NerdyDuck.Collections.Properties.Resources</ResourceName>
+    </ResWFiles>
+    <ResWFiles Include="..\CollectionsUniversal\Strings\de-DE\Resources.resw">
+      <Link>Properties\de-DE\Resources.resw</Link>
+      <ResourceName>NerdyDuck.Collections.Properties.Resources.de-DE</ResourceName>
+    </ResWFiles>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\NerdyDuck.snk">
+      <Link>NerdyDuck.snk</Link>
+    </None>
+    <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\CollectionsUniversal\Concurrrent\BlockingConcurrentDictionary.cs">
@@ -74,22 +88,6 @@
       <Link>Properties\Resources.cs</Link>
     </Compile>
     <Compile Include="GlobalSuppressions.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\NerdyDuck.snk">
-      <Link>NerdyDuck.snk</Link>
-    </None>
-    <None Include="project.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResWFiles Include="..\CollectionsUniversal\Strings\en-US\Resources.resw">
-      <Link>Properties\en-US\Resources.resw</Link>
-      <ResourceName>NerdyDuck.Collections.Properties.Resources</ResourceName>
-    </ResWFiles>
-    <ResWFiles Include="..\CollectionsUniversal\Strings\de-DE\Resources.resw">
-      <Link>Properties\de-DE\Resources.resw</Link>
-      <ResourceName>NerdyDuck.Collections.Properties.Resources.de-DE</ResourceName>
-    </ResWFiles>
   </ItemGroup>
   <PropertyGroup>
     <TransformT4OnBuild>true</TransformT4OnBuild>

@@ -21,6 +21,9 @@ The neutral resource language for all texts is English (en-US). Currently, the o
 #### More information
 For examples and a complete class reference, please see the [Wiki](../../wiki/). :exclamation: **Work in progress**.
 
+#### Licence
+The project is licensed under the [Apache License, Version 2.0](LICENSE).
+
 #### History
 #####TBD / vNext / DAK
 - Added deployment project to compile all projects and create/push the NuGet package in one go. Removed separate NuGet project. Removes also dependency on NuGet Packager Template.

@@ -29,7 +29,7 @@
 	<metadata minClientVersion="3.3.0">
 		<id>$id$</id>
 		<version>$version$</version>
-		<title>NerdyDuck CodedExceptions</title>
+		<title>NerdyDuck Collections</title>
 		<authors>Daniel Kopp</authors>
 		<description>This library provides a set of specialized collections, e.g. for multi-threading purposes.</description>
 		<releaseNotes>
