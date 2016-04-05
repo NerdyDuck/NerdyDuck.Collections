@@ -25,7 +25,8 @@ For examples and a complete class reference, please see the [Wiki](../../wiki/).
 The project is licensed under the [Apache License, Version 2.0](LICENSE).
 
 #### History
-#####TBD / vNext / DAK
+#####2016-04-05 / v1.0.2 / DAK
+- Updated reference for NerdyDuck.CodedExceptions to v1.2.0.
 - Added deployment project to compile all projects and create/push the NuGet package in one go. Removed separate NuGet project. Removes also dependency on NuGet Packager Template.
 - Extracted file signing into its own reusable MSBuild target file.
 - Extracted resource generation for desktop project into its own reusable MSBuild target file.
@@ -35,4 +36,4 @@ The project is licensed under the [Apache License, Version 2.0](LICENSE).
 - Fixed: Wrong build action for Resources.tt breaks NuGet package for UWP, because the file is not part of package, but required as payload.
 
 ##### 2016-02-16 / v1.0.0 / DAK
-- First release. Contains (Non)BlockingConcurrentList&lt;T&gt; and (Non)BlockingConcurrentDictionary&lt;T&gt;.
+- First release. Contains (Non)BlockingConcurrentList(T) and (Non)BlockingConcurrentDictionary(T).

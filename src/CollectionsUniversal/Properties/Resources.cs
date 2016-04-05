@@ -1,7 +1,7 @@
 ﻿#region Copyright
 /*******************************************************************************
  * <copyright file="Resources.cs" owner="Daniel Kopp">
- * Copyright 2015-2016 Daniel Kopp
+ * Copyright 2015 Daniel Kopp
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,16 +16,14 @@
  * limitations under the License.
  * </copyright>
  * <author name="Daniel Kopp" email="dak@nerdyduck.de" />
- * <assembly name="NerdyDuck.Collections">
- * Specialized collections for .NET
- * </assembly>
- * <file name="Resources.cs" date="2016-03-17">
+ * <file name="Resources.cs" date="2016-04-05">
  * Helper class to access localized string resources.
  * </file>
  ******************************************************************************/
 #endregion
 
 using System;
+using System.Globalization;
 
 namespace NerdyDuck.Collections.Properties
 {
@@ -166,6 +164,39 @@ namespace NerdyDuck.Collections.Properties
 
 			return resourceCandidate.ValueAsString;
 		}
+
+		/// <summary>
+		/// Retrieves a string resource for the specified culture using the resource map.
+		/// </summary>
+		/// <param name="name">The name of the string resource.</param>
+		/// <param name="culture">The culture to retrieve a matching string for. May be <see langword="null"/>.</param>
+		/// <returns>A localized string.</returns>
+		internal static string GetResource(string name, CultureInfo culture)
+		{
+			Windows.ApplicationModel.Resources.Core.ResourceContext context;
+			if (culture == null || culture.IsNeutralCulture)
+			{
+				context = Context;
+				if (context == null)
+				{
+					context = Windows.ApplicationModel.Resources.Core.ResourceContext.GetForViewIndependentUse();
+				}
+			}
+			else
+			{
+				context = new Windows.ApplicationModel.Resources.Core.ResourceContext();
+				context.Languages = new string[] { culture.TwoLetterISOLanguageName };
+			}
+
+			Windows.ApplicationModel.Resources.Core.ResourceCandidate resourceCandidate = ResourceMap.GetValue("NerdyDuck.Logging/Resources/" + name, context);
+
+			if (resourceCandidate == null)
+			{
+				throw new ArgumentOutOfRangeException(nameof(name));
+			}
+
+			return resourceCandidate.ValueAsString;
+		}
 		#endregion
 #endif
 
@@ -213,6 +244,17 @@ namespace NerdyDuck.Collections.Properties
 		internal static string GetResource(string name)
 		{
 			return ResourceManager.GetString(name, mResourceCulture);
+		}
+
+		/// <summary>
+		/// Retrieves a string resource for the specified culture using the resource manager.
+		/// </summary>
+		/// <param name="name">The name of the string resource.</param>
+		/// <param name="culture">The culture to retrieve a matching string for. May be <see langword="null"/>.</param>
+		/// <returns>A localized string.</returns>
+		internal static string GetResource(string name, CultureInfo culture)
+		{
+			return ResourceManager.GetString(name, culture);
 		}
 		#endregion
 #endif

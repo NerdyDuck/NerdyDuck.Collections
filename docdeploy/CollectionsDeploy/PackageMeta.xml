@@ -34,6 +34,7 @@
 		<description>This library provides a set of specialized collections, e.g. for multi-threading purposes.</description>
 		<releaseNotes>
 			v1.0.1: Fixed: Wrong build action for Resources.tt breaks NuGet package for UWP.
+			v1.0.1: Fixed: Wrong build action for Resources.tt breaks NuGet package for UWP.
 			v1.0.0: First release
 		</releaseNotes>
 		<summary>Specialized collections for .NET 4.6+ and UWP.</summary>
@@ -44,7 +45,7 @@
 		<licenseUrl>http://opensource.org/licenses/Apache-2.0</licenseUrl>
 		<copyright>Copyright Daniel Kopp 2015-2016</copyright>
 		<dependencies>
-			<dependency id="NerdyDuck.CodedExceptions" version="1.1.2"/>
+			<dependency id="NerdyDuck.CodedExceptions" version="1.2.0"/>
 		</dependencies>
 		<references></references>
 		<tags>collections lists concurrent synchronization uwp desktop</tags>

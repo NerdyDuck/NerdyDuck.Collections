@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5E7D0FEE-F9B4-4F1B-B32B-2E1749B22353}"
 	ProjectSection(SolutionItems) = preProject
@@ -26,9 +26,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CollectionsUniversal", "src\CollectionsUniversal\CollectionsUniversal.csproj", "{57536A9F-42B3-4AC6-8AAD-4E7E6F055A7D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CollectionsDesktop", "src\CollectionsDesktop\CollectionsDesktop.csproj", "{07736024-8C5E-4A8E-8EF1-A82B43141C86}"
-	ProjectSection(ProjectDependencies) = postProject
-		{57536A9F-42B3-4AC6-8AAD-4E7E6F055A7D} = {57536A9F-42B3-4AC6-8AAD-4E7E6F055A7D}
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CollectionsUniversalTests", "test\CollectionsUniversalTests\CollectionsUniversalTests.csproj", "{6043A2D8-A610-42C0-AD58-3E389649512D}"
 EndProject
