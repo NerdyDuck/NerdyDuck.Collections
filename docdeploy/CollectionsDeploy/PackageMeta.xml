@@ -33,7 +33,7 @@
 		<authors>Daniel Kopp</authors>
 		<description>This library provides a set of specialized collections, e.g. for multi-threading purposes.</description>
 		<releaseNotes>
-			v1.0.1: Fixed: Wrong build action for Resources.tt breaks NuGet package for UWP.
+			v1.0.2: Updated library references.
 			v1.0.1: Fixed: Wrong build action for Resources.tt breaks NuGet package for UWP.
 			v1.0.0: First release
 		</releaseNotes>
