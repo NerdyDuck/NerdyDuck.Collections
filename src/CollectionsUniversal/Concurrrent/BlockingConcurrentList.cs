@@ -117,7 +117,7 @@ namespace NerdyDuck.Collections.Concurrent
 			AssertDisposed();
 			if (collection == null)
 			{
-				throw new CodedArgumentNullException(Errors.CreateHResult(0x12), nameof(collection));
+				throw new CodedArgumentNullException(Errors.CreateHResult(ErrorCodes.BlockingConcurrentList_AddRange_ArgNull), nameof(collection));
 			}
 			try
 			{
@@ -142,11 +142,11 @@ namespace NerdyDuck.Collections.Concurrent
 			AssertDisposed();
 			if (collection == null)
 			{
-				throw new CodedArgumentNullException(Errors.CreateHResult(0x13), nameof(collection));
+				throw new CodedArgumentNullException(Errors.CreateHResult(ErrorCodes.BlockingConcurrentList_InsertRange_ArgNull), nameof(collection));
 			}
 			if (index < 0 || index >= InternalList.Count)
 			{
-				throw new CodedArgumentOutOfRangeException(Errors.CreateHResult(0x14), nameof(index), index, Properties.Resources.Global_IndexOutOfRange);
+				throw new CodedArgumentOutOfRangeException(Errors.CreateHResult(ErrorCodes.BlockingConcurrentList_InsertRange_IndexOutOfBounds), nameof(index), index, Properties.Resources.Global_IndexOutOfRange);
 			}
 			try
 			{
@@ -171,15 +171,15 @@ namespace NerdyDuck.Collections.Concurrent
 			AssertDisposed();
 			if (index < 0 || index >= InternalList.Count)
 			{
-				throw new CodedArgumentOutOfRangeException(Errors.CreateHResult(0x15), nameof(index), index, Properties.Resources.Global_IndexOutOfRange);
+				throw new CodedArgumentOutOfRangeException(Errors.CreateHResult(ErrorCodes.BlockingConcurrentList_RemoveRange_IndexOutOfBounds), nameof(index), index, Properties.Resources.Global_IndexOutOfRange);
 			}
 			if (count < 0 || count > InternalList.Count)
 			{
-				throw new CodedArgumentOutOfRangeException(Errors.CreateHResult(0x16), nameof(count), index, Properties.Resources.Global_CountOutOfRange);
+				throw new CodedArgumentOutOfRangeException(Errors.CreateHResult(ErrorCodes.BlockingConcurrentList_RemoveRange_CountOutOfBounds), nameof(count), index, Properties.Resources.Global_CountOutOfRange);
 			}
 			if (index + count > InternalList.Count)
 			{
-				throw new CodedArgumentException(Errors.CreateHResult(0x17), Properties.Resources.Global_Range, nameof(index));
+				throw new CodedArgumentException(Errors.CreateHResult(ErrorCodes.BlockingConcurrentList_RemoveRange_InvalidRange), Properties.Resources.Global_Range, nameof(index));
 			}
 			try
 			{
@@ -220,7 +220,7 @@ namespace NerdyDuck.Collections.Concurrent
 			AssertDisposed();
 			if (comparison == null)
 			{
-				throw new CodedArgumentNullException(Errors.CreateHResult(0x18), nameof(comparison));
+				throw new CodedArgumentNullException(Errors.CreateHResult(ErrorCodes.BlockingConcurrentList_Sort_ArgNull), nameof(comparison));
 			}
 			try
 			{
@@ -262,15 +262,15 @@ namespace NerdyDuck.Collections.Concurrent
 			AssertDisposed();
 			if (index < 0 || index >= InternalList.Count)
 			{
-				throw new CodedArgumentOutOfRangeException(Errors.CreateHResult(0x19), nameof(index), index, Properties.Resources.Global_IndexOutOfRange);
+				throw new CodedArgumentOutOfRangeException(Errors.CreateHResult(ErrorCodes.BlockingConcurrentList_Sort_IndexOutOfBounds), nameof(index), index, Properties.Resources.Global_IndexOutOfRange);
 			}
 			if (count < 0 || count > InternalList.Count)
 			{
-				throw new CodedArgumentOutOfRangeException(Errors.CreateHResult(0x1a), nameof(count), index, Properties.Resources.Global_CountOutOfRange);
+				throw new CodedArgumentOutOfRangeException(Errors.CreateHResult(ErrorCodes.BlockingConcurrentList_Sort_CountOutOfBounds), nameof(count), index, Properties.Resources.Global_CountOutOfRange);
 			}
 			if (index + count > InternalList.Count)
 			{
-				throw new CodedArgumentException(Errors.CreateHResult(0x1b), Properties.Resources.Global_Range, nameof(index));
+				throw new CodedArgumentException(Errors.CreateHResult(ErrorCodes.BlockingConcurrentList_Sort_InvalidRange), Properties.Resources.Global_Range, nameof(index));
 			}
 			try
 			{
@@ -315,7 +315,7 @@ namespace NerdyDuck.Collections.Concurrent
 			AssertDisposed();
 			if (index < 0 || index >= InternalList.Count)
 			{
-				throw new CodedArgumentOutOfRangeException(Errors.CreateHResult(0x1c), nameof(index), index, Properties.Resources.Global_IndexOutOfRange);
+				throw new CodedArgumentOutOfRangeException(Errors.CreateHResult(ErrorCodes.BlockingConcurrentList_Insert_IndexOutOfBounds), nameof(index), index, Properties.Resources.Global_IndexOutOfRange);
 			}
 			try
 			{
@@ -337,7 +337,7 @@ namespace NerdyDuck.Collections.Concurrent
 			AssertDisposed();
 			if (index < 0 || index >= InternalList.Count)
 			{
-				throw new CodedArgumentOutOfRangeException(Errors.CreateHResult(0x1d), nameof(index), index, Properties.Resources.Global_IndexOutOfRange);
+				throw new CodedArgumentOutOfRangeException(Errors.CreateHResult(ErrorCodes.BlockingConcurrentList_RemoveAt_IndexOutOfBounds), nameof(index), index, Properties.Resources.Global_IndexOutOfRange);
 			}
 			try
 			{
@@ -362,7 +362,7 @@ namespace NerdyDuck.Collections.Concurrent
 				AssertDisposed();
 				if (index < 0 || index >= Count)
 				{
-					throw new CodedArgumentOutOfRangeException(Errors.CreateHResult(0x1e), nameof(index), index, Properties.Resources.Global_IndexOutOfRange);
+					throw new CodedArgumentOutOfRangeException(Errors.CreateHResult(ErrorCodes.BlockingConcurrentList_Item_get_IndexOutOfBounds), nameof(index), index, Properties.Resources.Global_IndexOutOfRange);
 				}
 				try
 				{
@@ -379,7 +379,7 @@ namespace NerdyDuck.Collections.Concurrent
 				AssertDisposed();
 				if (index < 0 || index >= Count)
 				{
-					throw new CodedArgumentOutOfRangeException(Errors.CreateHResult(0x1f), nameof(index), index, Properties.Resources.Global_IndexOutOfRange);
+					throw new CodedArgumentOutOfRangeException(Errors.CreateHResult(ErrorCodes.BlockingConcurrentList_Item_set_IndexOutOfBounds), nameof(index), index, Properties.Resources.Global_IndexOutOfRange);
 				}
 				try
 				{
@@ -459,15 +459,15 @@ namespace NerdyDuck.Collections.Concurrent
 			AssertDisposed();
 			if (array == null)
 			{
-				throw new CodedArgumentNullException(Errors.CreateHResult(0x20), nameof(array));
+				throw new CodedArgumentNullException(Errors.CreateHResult(ErrorCodes.BlockingConcurrentList_CopyTo_ArrayNull), nameof(array));
 			}
 			if (arrayIndex < 0)
 			{
-				throw new CodedArgumentOutOfRangeException(Errors.CreateHResult(0x21), nameof(arrayIndex), arrayIndex, Properties.Resources.Global_ArrayIndexOutOfRange);
+				throw new CodedArgumentOutOfRangeException(Errors.CreateHResult(ErrorCodes.BlockingConcurrentList_CopyTo_IndexLessThan0), nameof(arrayIndex), arrayIndex, Properties.Resources.Global_ArrayIndexOutOfRange);
 			}
 			if (arrayIndex + InternalList.Count > array.Length)
 			{
-				throw new CodedArgumentException(Errors.CreateHResult(0x22), string.Format(Properties.Resources.Global_CopyTo_NotEnoughSpace, arrayIndex), nameof(arrayIndex));
+				throw new CodedArgumentException(Errors.CreateHResult(ErrorCodes.BlockingConcurrentList_CopyTo_NotEnoughSpace), string.Format(Properties.Resources.Global_CopyTo_NotEnoughSpace, arrayIndex), nameof(arrayIndex));
 			}
 			try
 			{
@@ -558,11 +558,11 @@ namespace NerdyDuck.Collections.Concurrent
 			AssertDisposed();
 			if (value == null && default(T) != null)
 			{
-				throw new CodedArgumentNullException(Errors.CreateHResult(0x23), nameof(value));
+				throw new CodedArgumentNullException(Errors.CreateHResult(ErrorCodes.BlockingConcurrentList_Add_ObjectValueNull), nameof(value));
 			}
 			if (ItemTypeInfo.IsAssignableFrom(value.GetType().GetTypeInfo()))
 			{
-				throw new CodedArgumentException(Errors.CreateHResult(0x24), string.Format(Properties.Resources.Global_Add_InvalidCast, value, typeof(T)), nameof(value));
+				throw new CodedArgumentException(Errors.CreateHResult(ErrorCodes.BlockingConcurrentList_Add_ObjectInvalidType), string.Format(Properties.Resources.Global_Add_InvalidCast, value, typeof(T)), nameof(value));
 			}
 			try
 			{
@@ -623,11 +623,11 @@ namespace NerdyDuck.Collections.Concurrent
 			AssertDisposed();
 			if (value == null && default(T) != null)
 			{
-				throw new CodedArgumentNullException(Errors.CreateHResult(0x25), nameof(value));
+				throw new CodedArgumentNullException(Errors.CreateHResult(ErrorCodes.BlockingConcurrentList_Insert_ObjectValueNull), nameof(value));
 			}
 			if (ItemTypeInfo.IsAssignableFrom(value.GetType().GetTypeInfo()))
 			{
-				throw new CodedArgumentException(Errors.CreateHResult(0x26), string.Format(Properties.Resources.Global_Add_InvalidCast, value, typeof(T)), nameof(value));
+				throw new CodedArgumentException(Errors.CreateHResult(ErrorCodes.BlockingConcurrentList_Insert_ObjectInvalidType), string.Format(Properties.Resources.Global_Add_InvalidCast, value, typeof(T)), nameof(value));
 			}
 			try
 			{
@@ -712,11 +712,11 @@ namespace NerdyDuck.Collections.Concurrent
 				AssertDisposed();
 				if (value == null && default(T) != null)
 				{
-					throw new CodedArgumentNullException(Errors.CreateHResult(0x27), nameof(value));
+					throw new CodedArgumentNullException(Errors.CreateHResult(ErrorCodes.BlockingConcurrentList_Item_set_ObjectValueNull), nameof(value));
 				}
 				if (!ItemTypeInfo.IsAssignableFrom(value.GetType().GetTypeInfo()))
 				{
-					throw new CodedArgumentException(Errors.CreateHResult(0x28), string.Format(Properties.Resources.Global_Add_InvalidCast, value, typeof(T)), nameof(value));
+					throw new CodedArgumentException(Errors.CreateHResult(ErrorCodes.BlockingConcurrentList_Item_set_InvalidType), string.Format(Properties.Resources.Global_Add_InvalidCast, value, typeof(T)), nameof(value));
 				}
 				try
 				{

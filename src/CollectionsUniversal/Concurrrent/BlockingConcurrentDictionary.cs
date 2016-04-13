@@ -154,7 +154,7 @@ namespace NerdyDuck.Collections.Concurrent
 			AssertDisposed();
 			if (key == null)
 			{
-				throw new CodedArgumentNullException(Errors.CreateHResult(0x01), nameof(key));
+				throw new CodedArgumentNullException(Errors.CreateHResult(ErrorCodes.BlockingConcurrentDictionary_Add_KeyNull), nameof(key));
 			}
 
 			try
@@ -218,7 +218,7 @@ namespace NerdyDuck.Collections.Concurrent
 			AssertDisposed();
 			if (key == null)
 			{
-				throw new CodedArgumentNullException(Errors.CreateHResult(0x02), nameof(key));
+				throw new CodedArgumentNullException(Errors.CreateHResult(ErrorCodes.BlockingConcurrentDictionary_Remove_KeyNull), nameof(key));
 			}
 			try
 			{
@@ -289,7 +289,7 @@ namespace NerdyDuck.Collections.Concurrent
 				AssertDisposed();
 				if (key == null)
 				{
-					throw new CodedArgumentNullException(Errors.CreateHResult(0x03), nameof(key));
+					throw new CodedArgumentNullException(Errors.CreateHResult(ErrorCodes.BlockingConcurrentDictionary_Item_Set_KeyNull), nameof(key));
 				}
 				lock (this)
 				{
@@ -311,14 +311,14 @@ namespace NerdyDuck.Collections.Concurrent
 			AssertDisposed();
 			if (item.Key == null)
 			{
-				throw new CodedArgumentNullException(Errors.CreateHResult(0x04), "item.Key");
+				throw new CodedArgumentNullException(Errors.CreateHResult(ErrorCodes.BlockingConcurrentDictionary_Add_ItemKeyNull), "item.Key");
 			}
 			try
 			{
 				Lock.EnterWriteLock();
 				if (InternalDictionary.ContainsKey(item.Key))
 				{
-					throw new CodedArgumentException(Errors.CreateHResult(0x05), Properties.Resources.Global_Add_Duplicate, nameof(item));
+					throw new CodedArgumentException(Errors.CreateHResult(ErrorCodes.BlockingConcurrentDictionary_Add_KeyExists), Properties.Resources.Global_Add_Duplicate, nameof(item));
 				}
 				InternalDictionary.Add(item.Key, item.Value);
 			}
@@ -422,11 +422,11 @@ namespace NerdyDuck.Collections.Concurrent
 			AssertDisposed();
 			if (key == null)
 			{
-				throw new CodedArgumentNullException(Errors.CreateHResult(0x06), nameof(key));
+				throw new CodedArgumentNullException(Errors.CreateHResult(ErrorCodes.BlockingConcurrentDictionary_Add_ObjectKeyNull), nameof(key));
 			}
 			if (value == null && default(TValue) != null)
 			{
-				throw new CodedArgumentNullException(Errors.CreateHResult(0x07), nameof(value));
+				throw new CodedArgumentNullException(Errors.CreateHResult(ErrorCodes.BlockingConcurrentDictionary_Add_ObjectValueNull), nameof(value));
 			}
 			try
 			{
@@ -438,7 +438,7 @@ namespace NerdyDuck.Collections.Concurrent
 					{
 						if (InternalDictionary.ContainsKey(Key))
 						{
-							throw new CodedArgumentException(Errors.CreateHResult(0x08), Properties.Resources.Global_Add_Duplicate, nameof(key));
+							throw new CodedArgumentException(Errors.CreateHResult(ErrorCodes.BlockingConcurrentDictionary_Add_ObjectKeyExists), Properties.Resources.Global_Add_Duplicate, nameof(key));
 						}
 						try
 						{
@@ -453,12 +453,12 @@ namespace NerdyDuck.Collections.Concurrent
 				}
 				catch (InvalidCastException)
 				{
-					throw new CodedArgumentException(Errors.CreateHResult(0x0a), string.Format(Properties.Resources.Global_AddDictionary_InvalidCast, value, typeof(TValue)), nameof(value));
+					throw new CodedArgumentException(Errors.CreateHResult(ErrorCodes.BlockingConcurrentDictionary_Add_ValueInvalidType), string.Format(Properties.Resources.Global_AddDictionary_InvalidCast, value, typeof(TValue)), nameof(value));
 				}
 			}
 			catch (InvalidCastException)
 			{
-				throw new CodedArgumentException(Errors.CreateHResult(0x09), string.Format(Properties.Resources.Global_AddDictionary_InvalidCastKey, key, typeof(TKey)), nameof(key));
+				throw new CodedArgumentException(Errors.CreateHResult(ErrorCodes.BlockingConcurrentDictionary_Add_KeyInvalidType), string.Format(Properties.Resources.Global_AddDictionary_InvalidCastKey, key, typeof(TKey)), nameof(key));
 			}
 		}
 
@@ -489,7 +489,7 @@ namespace NerdyDuck.Collections.Concurrent
 			AssertDisposed();
 			if (key == null)
 			{
-				throw new CodedArgumentNullException(Errors.CreateHResult(0x0b), nameof(key));
+				throw new CodedArgumentNullException(Errors.CreateHResult(ErrorCodes.BlockingConcurrentDictionary_Contains_KeyNull), nameof(key));
 			}
 
 			try
@@ -569,7 +569,7 @@ namespace NerdyDuck.Collections.Concurrent
 			AssertDisposed();
 			if (key == null)
 			{
-				throw new CodedArgumentNullException(Errors.CreateHResult(0x0c), nameof(key));
+				throw new CodedArgumentNullException(Errors.CreateHResult(ErrorCodes.BlockingConcurrentDictionary_Remove_ObjectKeyNull), nameof(key));
 			}
 			try
 			{
@@ -615,7 +615,7 @@ namespace NerdyDuck.Collections.Concurrent
 				AssertDisposed();
 				if (key == null)
 				{
-					throw new CodedArgumentNullException(Errors.CreateHResult(0x0d), nameof(key));
+					throw new CodedArgumentNullException(Errors.CreateHResult(ErrorCodes.BlockingConcurrentDictionary_Item_get_KeyNull), nameof(key));
 				}
 				try
 				{
@@ -632,11 +632,11 @@ namespace NerdyDuck.Collections.Concurrent
 				AssertDisposed();
 				if (key == null)
 				{
-					throw new CodedArgumentNullException(Errors.CreateHResult(0x0e), nameof(key));
+					throw new CodedArgumentNullException(Errors.CreateHResult(ErrorCodes.BlockingConcurrentDictionary_Item_set_KeyNull), nameof(key));
 				}
 				if (value == null && default(TValue) != null)
 				{
-					throw new CodedArgumentNullException(Errors.CreateHResult(0x0f), nameof(value));
+					throw new CodedArgumentNullException(Errors.CreateHResult(ErrorCodes.BlockingConcurrentDictionary_Item_set_ValueNull), nameof(value));
 				}
 				try
 				{
@@ -656,12 +656,12 @@ namespace NerdyDuck.Collections.Concurrent
 					}
 					catch (InvalidCastException)
 					{
-						throw new CodedArgumentException(Errors.CreateHResult(0x11), string.Format(Properties.Resources.Global_AddDictionary_InvalidCast, value, typeof(TValue)), nameof(value));
+						throw new CodedArgumentException(Errors.CreateHResult(ErrorCodes.BlockingConcurrentDictionary_Item_set_ValueInvalidType), string.Format(Properties.Resources.Global_AddDictionary_InvalidCast, value, typeof(TValue)), nameof(value));
 					}
 				}
 				catch (InvalidCastException)
 				{
-					throw new CodedArgumentException(Errors.CreateHResult(0x10), string.Format(Properties.Resources.Global_AddDictionary_InvalidCastKey, key, typeof(TKey)), nameof(key));
+					throw new CodedArgumentException(Errors.CreateHResult(ErrorCodes.BlockingConcurrentDictionary_Item_set_KeyInvalidType), string.Format(Properties.Resources.Global_AddDictionary_InvalidCastKey, key, typeof(TKey)), nameof(key));
 				}
 			}
 		}

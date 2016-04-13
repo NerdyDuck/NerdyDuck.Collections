@@ -78,6 +78,9 @@
     <Compile Include="..\CollectionsUniversal\Concurrrent\NonBlockingConcurrentList.cs">
       <Link>Concurrent\NonBlockingConcurrentList.cs</Link>
     </Compile>
+    <Compile Include="..\CollectionsUniversal\ErrorCodes.cs">
+      <Link>ErrorCodes.cs</Link>
+    </Compile>
     <Compile Include="..\CollectionsUniversal\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>

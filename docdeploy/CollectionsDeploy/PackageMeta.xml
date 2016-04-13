@@ -33,6 +33,7 @@
 		<authors>Daniel Kopp</authors>
 		<description>This library provides a set of specialized collections, e.g. for multi-threading purposes.</description>
 		<releaseNotes>
+			v1.0.3: Updated library references.
 			v1.0.2: Updated library references.
 			v1.0.1: Fixed: Wrong build action for Resources.tt breaks NuGet package for UWP.
 			v1.0.0: First release
@@ -45,7 +46,7 @@
 		<licenseUrl>http://opensource.org/licenses/Apache-2.0</licenseUrl>
 		<copyright>Copyright Daniel Kopp 2015-2016</copyright>
 		<dependencies>
-			<dependency id="NerdyDuck.CodedExceptions" version="1.2.0"/>
+			<dependency id="NerdyDuck.CodedExceptions" version="1.2.1"/>
 		</dependencies>
 		<references></references>
 		<tags>collections lists concurrent synchronization uwp desktop</tags>

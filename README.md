@@ -25,6 +25,10 @@ For examples and a complete class reference, please see the [Wiki](../../wiki/).
 The project is licensed under the [Apache License, Version 2.0](LICENSE).
 
 #### History
+#####2016-04-13 / v1.0.3 / DAK
+- Updated reference for [NerdyDuck.CodedExceptions](../NerdyDuck.CodedExceptions) to v1.2.1.
+- Switched exception error codes from literals to `ErrorCodes` enumeration, including comment text from ErrorCodes.csv.
+
 #####2016-04-06 / v1.0.2 / DAK
 - Updated reference for [NerdyDuck.CodedExceptions](../NerdyDuck.CodedExceptions) to v1.2.0.
 - Added deployment project to compile all projects and create/push the NuGet package in one go. Removed separate NuGet project. Removes also dependency on NuGet Packager Template.
