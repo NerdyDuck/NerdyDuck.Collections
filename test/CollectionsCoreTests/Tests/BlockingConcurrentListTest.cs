@@ -29,7 +29,7 @@
 #if WINDOWS_UWP
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #endif
-#if WINDOWS_DESKTOP
+#if WINDOWS_DESKTOP || NETCORE
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
 #endif
@@ -81,7 +81,7 @@ namespace NerdyDuck.Tests.Collections
 #if WINDOWS_UWP
 			Task.Delay(milliseconds).RunSynchronously();
 #endif
-#if WINDOWS_DESKTOP
+#if WINDOWS_DESKTOP || NETCORER
 			Thread.Sleep(milliseconds);
 #endif
 		}

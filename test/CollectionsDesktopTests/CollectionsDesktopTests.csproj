@@ -41,7 +41,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>..\..\NerdyDuck.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\..\NerdyDuck.Collections.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -53,22 +53,22 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\CollectionsUniversalTests\CustomAssert.cs">
+    <Compile Include="..\CollectionsCoreTests\CustomAssert.cs">
       <Link>CustomAssert.cs</Link>
     </Compile>
-    <Compile Include="..\CollectionsUniversalTests\Properties\AssemblyInfo.cs">
+    <Compile Include="..\CollectionsCoreTests\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="..\CollectionsUniversalTests\Tests\BlockingConcurrentListTest.cs">
+    <Compile Include="..\CollectionsCoreTests\Tests\BlockingConcurrentListTest.cs">
       <Link>Tests\BlockingConcurrentListTest.cs</Link>
     </Compile>
-    <Compile Include="..\CollectionsUniversalTests\Tests\NonBlockingConcurrentListTest.cs">
+    <Compile Include="..\CollectionsCoreTests\Tests\NonBlockingConcurrentListTest.cs">
       <Link>Tests\NonBlockingConcurrentListTest.cs</Link>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\NerdyDuck.snk">
-      <Link>NerdyDuck.snk</Link>
+    <None Include="..\..\NerdyDuck.Collections.snk">
+      <Link>NerdyDuck.Collections.snk</Link>
     </None>
     <None Include="project.json" />
   </ItemGroup>

@@ -29,7 +29,7 @@
 #if WINDOWS_UWP
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #endif
-#if WINDOWS_DESKTOP
+#if WINDOWS_DESKTOP || NETCORE
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.CodeAnalysis;
 #endif
@@ -53,7 +53,7 @@ namespace NerdyDuck.Tests.Collections
 	[TestClass]
 	public class NonBlockingConcurrentListTest
 	{
-#if WINDOWS_DESKTOP
+#if WINDOWS_DESKTOP || NETCORE
 		[TestMethod]
 		public void AddWhileEnum()
 		{

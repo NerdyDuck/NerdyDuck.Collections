@@ -38,78 +38,71 @@
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>..\..\NerdyDuck.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\..\NerdyDuck.Collections.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <ResWFiles Include="..\CollectionsUniversal\Strings\en-US\Resources.resw">
-      <Link>Properties\en-US\Resources.resw</Link>
-      <ResourceName>NerdyDuck.Collections.Properties.Resources</ResourceName>
-    </ResWFiles>
-    <ResWFiles Include="..\CollectionsUniversal\Strings\de-DE\Resources.resw">
-      <Link>Properties\de-DE\Resources.resw</Link>
-      <ResourceName>NerdyDuck.Collections.Properties.Resources.de-DE</ResourceName>
-    </ResWFiles>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\NerdyDuck.snk">
-      <Link>NerdyDuck.snk</Link>
+    <None Include="..\..\NerdyDuck.Collections.snk">
+      <Link>NerdyDuck.Collections.snk</Link>
     </None>
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\CollectionsUniversal\Concurrrent\BlockingConcurrentDictionary.cs">
+    <Compile Include="..\CollectionsCore\Concurrent\BlockingConcurrentDictionary.cs">
       <Link>Concurrent\BlockingConcurrentDictionary.cs</Link>
     </Compile>
-    <Compile Include="..\CollectionsUniversal\Concurrrent\BlockingConcurrentDictionary.Enumerator.cs">
+    <Compile Include="..\CollectionsCore\Concurrent\BlockingConcurrentDictionary.Enumerator.cs">
       <Link>Concurrent\BlockingConcurrentDictionary.Enumerator.cs</Link>
     </Compile>
-    <Compile Include="..\CollectionsUniversal\Concurrrent\BlockingConcurrentList.cs">
+    <Compile Include="..\CollectionsCore\Concurrent\BlockingConcurrentList.cs">
       <Link>Concurrent\BlockingConcurrentList.cs</Link>
     </Compile>
-    <Compile Include="..\CollectionsUniversal\Concurrrent\BlockingConcurrentList.Enumerator.cs">
+    <Compile Include="..\CollectionsCore\Concurrent\BlockingConcurrentList.Enumerator.cs">
       <Link>Concurrent\BlockingConcurrentList.Enumerator.cs</Link>
     </Compile>
-    <Compile Include="..\CollectionsUniversal\Concurrrent\NonBlockingConcurrentDictionary.cs">
+    <Compile Include="..\CollectionsCore\Concurrent\NonBlockingConcurrentDictionary.cs">
       <Link>Concurrent\NonBlockingConcurrentDictionary.cs</Link>
     </Compile>
-    <Compile Include="..\CollectionsUniversal\Concurrrent\NonBlockingConcurrentList.cs">
+    <Compile Include="..\CollectionsCore\Concurrent\NonBlockingConcurrentList.cs">
       <Link>Concurrent\NonBlockingConcurrentList.cs</Link>
     </Compile>
-    <Compile Include="..\CollectionsUniversal\ErrorCodes.cs">
+    <Compile Include="..\CollectionsCore\ErrorCodes.cs">
       <Link>ErrorCodes.cs</Link>
     </Compile>
-    <Compile Include="..\CollectionsUniversal\Properties\AssemblyInfo.cs">
+    <Compile Include="..\CollectionsCore\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="..\CollectionsUniversal\Properties\Resources.cs">
-      <Link>Properties\Resources.cs</Link>
+    <Compile Include="..\CollectionsCore\Properties\Resources.Designer.cs">
+      <Link>Properties\Resources.Designer.cs</Link>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.tt</DependentUpon>
+      <DependentUpon>Resources.Designer.tt</DependentUpon>
     </Compile>
     <Compile Include="GlobalSuppressions.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\CollectionsUniversal\Properties\Resources.tt">
-      <Link>Properties\Resources.tt</Link>
+    <None Include="..\CollectionsCore\Properties\Resources.Designer.tt">
+      <Link>Properties\Resources.Designer.tt</Link>
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Resources.cs</LastGenOutput>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\CollectionsCore\Properties\Resources.de-DE.resx">
+      <Link>Properties\Resources.de-DE.resx</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\CollectionsCore\Properties\Resources.resx">
+      <Link>Properties\Resources.resx</Link>
+    </EmbeddedResource>
+  </ItemGroup>
   <PropertyGroup>
     <TransformT4OnBuild>true</TransformT4OnBuild>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <SignAssemblies>true</SignAssemblies>
-  </PropertyGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\tools\TransformT4OnBuild.targets" />
-  <Import Project="..\..\tools\TransformResW2X.targets" />
-  <Import Project="..\..\tools\SignAssembly.targets" />
 </Project>

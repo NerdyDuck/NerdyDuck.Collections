@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+*******************************************************************************
+  <copyright file="TransformResX2W.targets" owner="Daniel Kopp">
+  Copyright 2015-2016 Daniel Kopp
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  </copyright>
+  <author name="Daniel Kopp" email="dak@nerdyduck.de" />
+  <file name="TransformResX2W.targets" date="2016-03-09">
+  MSBuild target file to rename *.resw files to *.resx and compile them into
+  resources that are embedded into an assembly and corresponding satellite
+  assemblies.
+  </file>
+******************************************************************************
+-->
+
+<!--
+*******************************************************************************
+  Prerequisites:
+  - All RESX files to convert must be listed in an ItemGroup with the element
+    name ResXFiles.
+  - Each ResXFiles element requires a Link child element that contains
+    the name and path of the output resource file including the
+    resource's culture in the path.
+
+  Usage:
+  - Put an Import statement into your project file (towards the end of the file).
+  - Add one ResXFiles for every language into an ItemGroup.
+
+  Example (assuming your theoretical RESX files would be stored in the
+    Properties folder):
+
+  <ItemGroup>
+    <ResXFiles Include="..\MyProject\Properties\Resources.resx">
+      <Link>Strings\en-US\Resources.resw</Link>
+    </ResXFiles>
+    <ResWFiles Include="..\MyUniversalProject\Strings\de-DE\Resources.resw">
+      <Link>Strings\de-DE\Resources.resw</Link>
+    </ResWFiles>
+  </ItemGroup>
+
+  <Import Project="TransformResW2X.targets"/>
+
+******************************************************************************/
+-->
+
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Target Name="TransformResX2W" AfterTargets="BeforeBuild">
+    <Message Text="Generating resources..." Importance="high" />
+    <Copy SourceFiles="@(ResXFiles)" DestinationFiles="@(ResXFiles->'obj\$(ConfigurationName)\%(Link)')" SkipUnchangedFiles="true" OverwriteReadOnlyFiles="true">
+      <Output TaskParameter="CopiedFiles" ItemName="ResWFiles" />
+    </Copy>
+    <ItemGroup>
+      <PRIResource Include="@(ResWFiles)" />
+    </ItemGroup>
+  </Target>
+</Project>

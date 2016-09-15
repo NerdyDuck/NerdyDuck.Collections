@@ -30,36 +30,45 @@
   Usage:
   - Set the project's name to be used as the NuGet package name in the
     PackageName property.
-  - Set the paths to the desktop and universal project in the DesktopProject
-    and UniversalProject properties, either absolute or relative to deployment
-    project path.
+  - Set the paths to the desktop, universal and core project in the
+    DesktopProject, UniversalProject and CoreProject properties, either absolute
+    or relative to deployment project path.
   - Set the path to the AssemblyInfo.cs file that contains the version number
     to use for the NuGet package in the AssemblyInfoFile property. Only the
     first three parts of the version number are used (semver-conform).
-    If you need to add content files to the NuGet package, add them to the
+  - If you need to add content files to the NuGet package, add them to the
     deployment project in a subfolder named contentFiles, or change the
     ContentFilesPath property to the right location.
+  - Set PublishPackages to true, if you want to publish the nuget packages.
   - Set the path to your NuGet repository (and symbol repository) in
     NuGetPackageSource (and NuGetSymbolSource), and add the API keys if they
     are not stored globally. If you do not want to create a symbol package,
     add the CreateSymbolPackage property and set it to false.
+  - Set SignAssemblies to true, if you want to sign the assemblies before they
+    are packaged.
 ******************************************************************************/
 -->
+
 
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 	<PropertyGroup>
 		<PackageName>NerdyDuck.Collections</PackageName>
 		<DesktopProject>..\..\src\CollectionsDesktop\CollectionsDesktop.csproj</DesktopProject>
 		<UniversalProject>..\..\src\CollectionsUniversal\CollectionsUniversal.csproj</UniversalProject>
-		<AssemblyInfoFile>..\..\src\CollectionsUniversal\Properties\AssemblyInfo.cs</AssemblyInfoFile>
+		<CoreProject>..\..\src\CollectionsCore\CollectionsCore.xproj</CoreProject>
+		<AssemblyInfoFile>..\..\src\CollectionsCore\Properties\AssemblyInfo.cs</AssemblyInfoFile>
 		<ContentFilesPath></ContentFilesPath>
-		<ExcludedOutputs>**\NerdyDuck.CodedExceptions*.dll</ExcludedOutputs>
+		<ExcludedOutputs>**\NerdyDuck.CodedExceptions*</ExcludedOutputs>
+		<TargetAssemblyName>NerdyDuck.Collections</TargetAssemblyName>
+		<TargetAssemblyExt>.dll</TargetAssemblyExt>
 	</PropertyGroup>
 	<PropertyGroup>
-		<NuGetPackageSource>https://www.myget.org/F/nerdyduck-release/api/v2/package</NuGetPackageSource>
+		<NuGetPackageSource>https://www.myget.org/F/nerdyduck-staging/api/v2/package</NuGetPackageSource>
 		<NuGetPackageSourceApiKey></NuGetPackageSourceApiKey>
-		<NuGetSymbolSource>https://www.myget.org/F/nerdyduck-release/api/v2/package</NuGetSymbolSource>
+		<NuGetSymbolSource>https://www.myget.org/F/nerdyduck-staging/api/v2/package</NuGetSymbolSource>
 		<NuGetSymbolSourceApiKey></NuGetSymbolSourceApiKey>
+		<SignAssemblies Condition=" '$(Configuration)' == 'Release' ">false</SignAssemblies>
+		<PublishPackages Condition=" '$(Configuration)' == 'Release' ">true</PublishPackages>
 	</PropertyGroup>
 	<!-- Optional Properties
 	<PropertyGroup>

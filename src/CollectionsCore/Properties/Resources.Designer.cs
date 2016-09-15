@@ -1,6 +1,6 @@
 ﻿#region Copyright
 /*******************************************************************************
- * <copyright file="Resources.cs" owner="Daniel Kopp">
+ * <copyright file="Resources.Designer.cs" owner="Daniel Kopp">
  * Copyright 2015-2016 Daniel Kopp
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,7 +16,7 @@
  * limitations under the License.
  * </copyright>
  * <author name="Daniel Kopp" email="dak@nerdyduck.de" />
- * <file name="Resources.cs" date="2016-04-13">
+ * <file name="Resources.Designer.cs" date="2016-08-04">
  * Helper class to access localized string resources.
  * </file>
  ******************************************************************************/
@@ -24,13 +24,14 @@
 
 using System;
 using System.Globalization;
+using System.Reflection;
 
 namespace NerdyDuck.Collections.Properties
 {
 	/// <summary>
 	/// Helper class to access localized string resources.
 	/// </summary>
-	[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Resources.tt", "1.0.0.0")]
+	[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Resources.Designer.tt", "2.0.0.0")]
 	[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 	internal static class Resources
 	{
@@ -188,7 +189,7 @@ namespace NerdyDuck.Collections.Properties
 				context.Languages = new string[] { culture.TwoLetterISOLanguageName };
 			}
 
-			Windows.ApplicationModel.Resources.Core.ResourceCandidate resourceCandidate = ResourceMap.GetValue("NerdyDuck.Logging/Resources/" + name, context);
+			Windows.ApplicationModel.Resources.Core.ResourceCandidate resourceCandidate = ResourceMap.GetValue("NerdyDuck.Collections/Resources/" + name, context);
 
 			if (resourceCandidate == null)
 			{
@@ -200,7 +201,7 @@ namespace NerdyDuck.Collections.Properties
 		#endregion
 #endif
 
-#if WINDOWS_DESKTOP
+#if WINDOWS_DESKTOP || NETCORE
 		#region Private fields
 		private static System.Resources.ResourceManager mResourceManager;
 		private static System.Globalization.CultureInfo mResourceCulture;
@@ -217,7 +218,7 @@ namespace NerdyDuck.Collections.Properties
 			{
 				if (object.ReferenceEquals(mResourceManager, null))
 				{
-					System.Resources.ResourceManager temp = new System.Resources.ResourceManager("NerdyDuck.Collections.Properties.Resources", typeof(Resources).Assembly);
+					System.Resources.ResourceManager temp = new System.Resources.ResourceManager("NerdyDuck.Collections.Properties.Resources", typeof(Resources).GetTypeInfo().Assembly);
 					mResourceManager = temp;
 				}
 				return mResourceManager;

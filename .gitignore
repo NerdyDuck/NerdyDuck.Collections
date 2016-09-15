@@ -93,8 +93,6 @@ AppPackages/
 # Others
 ~$*
 *~
-*.snk
-*.pfx
 *.publishsettings
 *CodeAnalysisLog.xml
 node_modules/

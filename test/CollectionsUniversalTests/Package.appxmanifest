@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="NerdyDuck.Tests.Collections" Publisher="E=dak@nerdyduck.de, CN=Daniel Kopp, L=Erding, S=Bayern, C=DE" Version="1.0.0.0" />
+  <Identity Name="NerdyDuck.Tests.Collections" Publisher="CN=NerdyDuck" Version="1.1.0.0" />
   <mp:PhoneIdentity PhoneProductId="f4d62b6e-5b85-4c97-9d0f-39e268cb2272" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>Collections</DisplayName>

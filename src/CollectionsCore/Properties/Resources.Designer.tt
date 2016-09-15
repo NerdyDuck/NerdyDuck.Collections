@@ -1,6 +1,6 @@
 ﻿<#
 /*******************************************************************************
- * <copyright file="Resources.tt" owner="Daniel Kopp">
+ * <copyright file="Resources.Designer.tt" owner="Daniel Kopp">
  * Copyright 2015-2016 Daniel Kopp
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,7 +16,7 @@
  * limitations under the License.
  * </copyright>
  * <author name="Daniel Kopp" email="dak@nerdyduck.de" />
- * <file name="Resources.tt" date="2015-09-30">
+ * <file name="Resources.Designer.tt" date="2015-09-30">
  * Creates a strongly typed accessor class for a .resw resource file in the
  * same project, that can be used for both universal and desktop type projects.
  * The template file must have the same name as the resource file. The
@@ -52,6 +52,7 @@ string TemplateDirectory = string.Empty;
 string ProjectFilePath = string.Empty;
 string ProjectDirectory = string.Empty;
 string NeutralResourcesLanguage = string.Empty;
+string ResourceBaseName = string.Empty;
 string RootNamespace = string.Empty;
 string ResourceNamespace = string.Empty;
 string ResourcePath = string.Empty;
@@ -60,6 +61,11 @@ List<ResourceEntry> ResourceEntries = null;
 // Get name and directory of template file
 TemplateDirectory = Path.GetDirectoryName(Host.TemplateFile);
 TemplateName = Path.GetFileNameWithoutExtension(Host.TemplateFile);
+ResourceBaseName = TemplateName;
+if (ResourceBaseName.EndsWith(".Designer"))
+{
+	ResourceBaseName = ResourceBaseName.Substring(0, ResourceBaseName.Length - 9);
+}
 
 // Try to find the project file
 ProjectFilePath = FindProjectFile(TemplateDirectory);
@@ -78,20 +84,13 @@ if (RootNamespace == null)
 	return "No root namespace found.";
 }
 
-// Try to get NeutralResourcesLanguageAttribute from AssemblyInfo.cs
-NeutralResourcesLanguage = GetNeutralResourcesLanguage(ProjectDirectory);
-if (NeutralResourcesLanguage == null)
-{
-	NeutralResourcesLanguage = string.Empty;
-}
-
 // Combine root namespace and template subdirectory relative to project directory to create resource namespace
 ResourceNamespace = GetResourceNamespace(ProjectDirectory, TemplateDirectory, RootNamespace);
 
 // Try to find the resource file in the project.
 // The file must have the same name as the template, and if a NeutralResourcesLanguageAttribute is set,
 // the file must reside in a folder named like the neutral resources language
-ResourcePath = FindResourceFile(ProjectDirectory, TemplateName, NeutralResourcesLanguage);
+ResourcePath = FindResourceFile(ProjectDirectory, ResourceBaseName);
 if (ResourcePath == null)
 {
 	Error("No matching resource file found.");
@@ -129,15 +128,16 @@ ResourceEntries = GetResourceEntries(ResourcePath);
 
 using System;
 using System.Globalization;
+using System.Reflection;
 
 namespace <#= ResourceNamespace #>
 {
 	/// <summary>
 	/// Helper class to access localized string resources.
 	/// </summary>
-	[global::System.CodeDom.Compiler.GeneratedCodeAttribute("<#= Path.GetFileName(Host.TemplateFile) #>", "1.0.0.0")]
+	[global::System.CodeDom.Compiler.GeneratedCodeAttribute("<#= Path.GetFileName(Host.TemplateFile) #>", "2.0.0.0")]
 	[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-	internal static class <#= TemplateName #>
+	internal static class <#= ResourceBaseName #>
 	{
 		#region String resource properties<#
 		foreach (ResourceEntry entry in ResourceEntries)
@@ -208,7 +208,7 @@ namespace <#= ResourceNamespace #>
 				context = Windows.ApplicationModel.Resources.Core.ResourceContext.GetForViewIndependentUse();
 			}
 
-			Windows.ApplicationModel.Resources.Core.ResourceCandidate resourceCandidate = ResourceMap.GetValue("<#= RootNamespace #>/<#= TemplateName #>/" + name, context);
+			Windows.ApplicationModel.Resources.Core.ResourceCandidate resourceCandidate = ResourceMap.GetValue("<#= RootNamespace #>/<#= ResourceBaseName #>/" + name, context);
 
 			if (resourceCandidate == null)
 			{
@@ -241,7 +241,7 @@ namespace <#= ResourceNamespace #>
 				context.Languages = new string[] { culture.TwoLetterISOLanguageName };
 			}
 
-			Windows.ApplicationModel.Resources.Core.ResourceCandidate resourceCandidate = ResourceMap.GetValue("NerdyDuck.Logging/Resources/" + name, context);
+			Windows.ApplicationModel.Resources.Core.ResourceCandidate resourceCandidate = ResourceMap.GetValue("<#= RootNamespace #>/Resources/" + name, context);
 
 			if (resourceCandidate == null)
 			{
@@ -253,7 +253,7 @@ namespace <#= ResourceNamespace #>
 		#endregion
 #endif
 
-#if WINDOWS_DESKTOP
+#if WINDOWS_DESKTOP || NETCORE
 		#region Private fields
 		private static System.Resources.ResourceManager mResourceManager;
 		private static System.Globalization.CultureInfo mResourceCulture;
@@ -270,7 +270,7 @@ namespace <#= ResourceNamespace #>
 			{
 				if (object.ReferenceEquals(mResourceManager, null))
 				{
-					System.Resources.ResourceManager temp = new System.Resources.ResourceManager("<#= ResourceNamespace #>.<#= TemplateName #>", typeof(<#= TemplateName #>).Assembly);
+					System.Resources.ResourceManager temp = new System.Resources.ResourceManager("<#= ResourceNamespace #>.<#= ResourceBaseName #>", typeof(<#= ResourceBaseName #>).GetTypeInfo().Assembly);
 					mResourceManager = temp;
 				}
 				return mResourceManager;
@@ -323,7 +323,7 @@ private string FindProjectFile(string childDirectory)
 		return null;
 	}
 
-	string[] ProjectFiles = Directory.GetFiles(childDirectory, "*.csproj");
+	string[] ProjectFiles = Directory.GetFiles(childDirectory, "*.*proj");
 	if (ProjectFiles.Length == 0)
 	{
 		// No project file in this directory, try the parent directory.
@@ -377,48 +377,21 @@ private string GetRootNamespace(string fileName)
 	return ReturnValue;
 }
 
-// Gets the NeutralResourcesLanguageAttribute from a AssemblyInfo.cs file in the project.
-private string GetNeutralResourcesLanguage(string projectDirectory)
-{
-	// Search all directories recursively
-	string[] AssemblyInfoFiles = Directory.GetFiles(projectDirectory, "AssemblyInfo.cs", SearchOption.AllDirectories);
-	if (AssemblyInfoFiles.Length == 0)
-	{
-		return null;
-	}
-
-	// Read the first file (more than one unlikely) and find the NeutralResourcesLanguageAttribute
-	string[] Lines = File.ReadAllLines(AssemblyInfoFiles[0]);
-	foreach (string line in Lines)
-	{
-		int Pos = line.IndexOf("NeutralResourcesLanguage");
-		if (Pos > -1)
-		{
-			Pos = line.IndexOf("\"", Pos);
-			if (Pos > -1)
-			{
-				Pos++;
-				int EndPos = line.IndexOf("\"", Pos);
-				return line.Substring(Pos, EndPos - Pos);
-			}
-		}
-	}
-	return null;
-}
-
 // Finds the resource file with the specified name in the project
-private string FindResourceFile(string projectDirectory, string baseFileName, string neutralResourcesLanguage)
+private string FindResourceFile(string projectDirectory, string baseFileName)
 {
 	// Search the project recursively
-	string[] ResourceFiles = Directory.GetFiles(projectDirectory, baseFileName + ".resw", SearchOption.AllDirectories);
-
-	// If a neutral resources language was found in AssemblyInfo, try to find that one
-	foreach (string fileName in ResourceFiles)
+	string[] ResourceFiles = Directory.GetFiles(projectDirectory, baseFileName + ".resx", SearchOption.AllDirectories);
+	if (ResourceFiles.Length > 0)
 	{
-		if (string.IsNullOrEmpty(neutralResourcesLanguage))
-			return fileName;
-		else if (Path.GetDirectoryName(fileName).EndsWith(neutralResourcesLanguage))
-			return fileName;
+		return ResourceFiles[0];
+	}
+
+	// Fallback to a localized resource.
+	ResourceFiles = Directory.GetFiles(projectDirectory, baseFileName + "*.resx", SearchOption.AllDirectories);
+	if (ResourceFiles.Length > 0)
+	{
+		return ResourceFiles[0];
 	}
 	return null;
 }

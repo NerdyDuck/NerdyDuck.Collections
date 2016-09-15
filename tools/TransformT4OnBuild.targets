@@ -60,7 +60,8 @@
     <Error Text="Failed to find TextTransform.exe tool at $(TextTransformExePath)." Condition="!Exists('$(TextTransformExePath)')"/>
     <Message Text="Transforming text templates..." Importance="high" />
     <ItemGroup>
-      <FilesToTransform Include="@(None)" Condition="'%(None.Generator)' == 'TextTemplatingFileGenerator'" />
+      <!--<FilesToTransform Include="@(None)" Condition="'%(None.Generator)' == 'TextTemplatingFileGenerator'" />-->
+      <FilesToTransform Include="**\*.tt" />
     </ItemGroup>
     <Message Text="Files transformed: @(FilesToTransform)" />
     <Exec Command="&quot;$(TextTransformExePath)&quot; &quot;@(FilesToTransform->'%(FullPath)')&quot;" WorkingDirectory="@(FilesToTransform->'%(RelativeDir)')" Condition="'%(Identity)' != ''"/>

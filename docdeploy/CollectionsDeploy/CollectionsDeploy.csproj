@@ -29,6 +29,10 @@
     </None>
   </ItemGroup>
   <Import Project="DeploySettings.props" />
+  <PropertyGroup>
+    <SignAssemblies Condition=" '$(SignAssemblies)'=='' ">false</SignAssemblies>
+    <PublishPackages Condition=" '$(PublishPackages)'=='' ">false</PublishPackages>
+  </PropertyGroup>
   <ItemGroup>
     <!-- All projects and platforms to build. Send into obj folder -->
     <ProjectsToBuild Include="$(DesktopProject)">
@@ -46,10 +50,12 @@
     <ProjectsToBuild Include="$(UniversalProject)">
       <Properties>Configuration=$(Configuration);Platform=x86;OutputPath=$(MSBuildProjectDirectory)\$(IntermediateOutputPath)\uap10.0\x86</Properties>
     </ProjectsToBuild>
+    <ProjectsToBuild Include="$(CoreProject)">
+      <Properties>Configuration=$(Configuration);Platform=AnyCPU;OutputPath=$(MSBuildProjectDirectory)\$(IntermediateOutputPath)\netstandardTemp</Properties>
+      <SubType>Designer</SubType>
+    </ProjectsToBuild>
   </ItemGroup>
-  <Target Name="Build">
-    <Error Condition="!Exists('$(NuSpecFileBase).tt')" Text="NuSpec file not found ($(NuSpecFileBase).tt)" />
-    <Error Text="Failed to find TextTransform.exe tool at $(TextTransformExePath)." Condition="!Exists('$(TextTransformExePath)')" />
+  <Target Name="CleanOutput" BeforeTargets="Build">
     <!-- Cleanup before build -->
     <ItemGroup>
       <FilesToDelete Include="$(OutputPath)\**\*.nupkg" />
@@ -57,28 +63,67 @@
       <FilesToDelete Include=".\NuGet.log" />
     </ItemGroup>
     <Delete Files="@(FilesToDelete)" />
+  </Target>
+  <Target Name="Build">
     <!-- Build the projects -->
-    <MSBuild Projects="@(ProjectsToBuild)" Targets="Build" />
+    <MSBuild Projects="@(ProjectsToBuild)" Targets="Build" BuildInParallel="true" />
+  </Target>
+  <Target Name="CleanCoreOutput" AfterTargets="Build">
+    <!-- Move the output of Core project from the erroneously created subfolder structure (src\<project>\bin\<configuration>\netstandard1.6\) to the intended output folder -->
+    <MoveCoreFolder SolutionFolder="$(SolutionDir)" ProjectPath="$(CoreProject)" SourcePath="$(MSBuildProjectDirectory)\$(IntermediateOutputPath)\netstandardTemp" TargetPath="$(MSBuildProjectDirectory)\$(IntermediateOutputPath)\netstandard1.6" Configuration="$(Configuration)" />
+    <RemoveDir Directories="$(IntermediateOutputPath)\netstandardTemp" />
+  </Target>
+  <Target Name="RemoveExcludedOutput" AfterTargets="CleanCoreOutput">
     <!-- Remove excluded files from output, and remove the auto-created TempPE folder -->
     <CombinePath BasePath="$(MSBuildProjectDirectory)\$(IntermediateOutputPath)" Paths="$(ExcludedOutputs.Split(';'))">
-      <Output ItemName="OutputsToDeleteString" TaskParameter="CombinedPaths"/>
+      <Output ItemName="OutputsToDeleteString" TaskParameter="CombinedPaths" />
     </CombinePath>
     <ItemGroup>
       <OutputsToDelete Include="%(OutputsToDeleteString.Identity)" />
     </ItemGroup>
     <Delete Condition=" '@(OutputsToDelete)'!='' " Files="@(OutputsToDelete)" />
     <RemoveDir Directories="$(MSBuildProjectDirectory)\$(IntermediateOutputPath)\TempPE" />
+  </Target>
+  <Target Name="GetPackageVersion" AfterTargets="RemoveExcludedOutput">
     <!-- Get version number for .zip and .nupkg from AssemblyInfo.cs, then create zip files from contents of obj directory structure -->
     <GetAssemblyVersion FilePath="$(AssemblyInfoFile)">
       <Output TaskParameter="VersionString" PropertyName="PackageVersionString" />
     </GetAssemblyVersion>
+  </Target>
+  <PropertyGroup Condition=" '$(SignAssemblies)'=='true' ">
+    <!-- Get installation path of Windows SDK 7.1A, because it contains signtool.exe -->
+    <WinSDK71Path>$(registry:HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft SDKs\Windows\v7.1A@InstallationFolder)</WinSDK71Path>
+    <SignToolExePath Condition=" '$(SignToolExePath)'=='' ">$(WinSDK71Path)bin\signtool.exe</SignToolExePath>
+    <SignHashAlgorithm Condition=" '$(SignHashAlgorithm)'=='' ">sha256</SignHashAlgorithm>
+    <TimestampServerUrl Condition=" '$(TimestampServerUrl)'=='' ">http://tsa.startssl.com/rfc3161</TimestampServerUrl>
+  </PropertyGroup>
+  <Target Name="SignAssemblies" Condition=" '$(SignAssemblies)'=='true' " BeforeTargets="CreateGithubZip">
+    <Error Text="Failed to find signtool.exe tool at $(SignToolExePath)." Condition="!Exists('$(SignToolExePath)')" />
+    <Message Text="Signing assemblies..." Importance="high" />
+    <ItemGroup>
+      <FilesToSign Include="$(MSBuildProjectDirectory)\$(IntermediateOutputPath)\**\$(TargetAssemblyName)*$(TargetAssemblyExt)" />
+      <FilesToSign Condition="'$(TargetAssemblyExt)' != '.dll'" Include="$(MSBuildProjectDirectory)\$(IntermediateOutputPath)\**\$(TargetAssemblyName)**.dll" />
+    </ItemGroup>
+    <!-- Sign all assemblies, using the default SPC from the user store -->
+    <Exec Command="&quot;$(SignToolExePath)&quot; sign /a /q /fd $(SignHashAlgorithm) /tr $(TimestampServerUrl) &quot;%(FilesToSign.Identity)&quot;" />
+    <Message Text="Files signed: @(FilesToSign)" />
+  </Target>
+  <Target Name="CreateGithubZip" AfterTargets="GetPackageVersion">
+    <!-- Create a zip file with the binaries for a GitHub release tag -->
+    <MakeDir Directories="$(OutputPath)" />
     <CreateZipFromDirectory DirectoryName="$(IntermediateOutputPath)\" ArchiveFileName="$(OutputPath)\$(PackageName)-$(PackageVersionString)-binaries.zip" />
+  </Target>
+  <Target Name="CreateNuGet" AfterTargets="CreateGithubZip">
     <!-- Transform Package.tt and PackageMeta.xml into Package.nuspec, pack and push NuGet -->
-    <Exec Command="&quot;$(TextTransformExePath)&quot; &quot;$(NuSpecFileBase).tt&quot; -a &quot;!!SolutionFolder!$(SolutionDir) &quot; -a &quot;!!DeployProjectFolder!$(MSBuildProjectDirectory) &quot; -a &quot;!!DesktopProject!$(DesktopProject)&quot; -a &quot;!!UniversalProject!$(UniversalProject)&quot; -a &quot;!!FileSourceFolder!$(IntermediateOutputPath) &quot; -a &quot;!!ContentFilesSourceFolder!$(ContentFilesPath) &quot; -a &quot;!!MetaFileName!$(NuSpecMetaFile)&quot; -a !!PackageName!$(PackageName) -a !!PackageVersion!$(PackageVersionString)" />
+    <Error Condition="!Exists('$(NuSpecFileBase).tt')" Text="NuSpec file not found ($(NuSpecFileBase).tt)" />
+    <Error Text="Failed to find TextTransform.exe tool at $(TextTransformExePath)." Condition="!Exists('$(TextTransformExePath)')" />
+    <Exec Command="&quot;$(TextTransformExePath)&quot; &quot;$(NuSpecFileBase).tt&quot; -a &quot;!!SolutionFolder!$(SolutionDir) &quot; -a &quot;!!DeployProjectFolder!$(MSBuildProjectDirectory) &quot; -a &quot;!!DesktopProject!$(DesktopProject)&quot; -a &quot;!!UniversalProject!$(UniversalProject)&quot; -a &quot;!!CoreProject!$(CoreProject)&quot; -a &quot;!!FileSourceFolder!$(IntermediateOutputPath) &quot; -a &quot;!!ContentFilesSourceFolder!$(ContentFilesPath) &quot; -a &quot;!!MetaFileName!$(NuSpecMetaFile)&quot; -a !!PackageName!$(PackageName) -a !!PackageVersion!$(PackageVersionString) -a !!Configuration!$(Configuration)" />
     <DownloadFile Condition="!Exists('nuget.exe')" Address="$(NuGetExeDownloadUrl)" FileName="nuget.exe" />
     <Exec Command="nuget.exe update -self" />
     <Exec Condition=" '$(CreateSymbolPackage)'=='true' " Command="nuget.exe pack &quot;$(NuSpecFileBase).nuspec&quot; -NonInteractive -Symbols -OutputDirectory &quot;$(OutputPath)&quot;" />
     <Exec Condition=" '$(CreateSymbolPackage)'=='false' " Command="nuget.exe pack &quot;$(NuSpecFileBase).nuspec&quot; -NonInteractive -OutputDirectory &quot;$(OutputPath)&quot;" />
+  </Target>
+  <Target Name="PushNuGet" Condition=" '$(PublishPackages)'=='true' " AfterTargets="CreateNuGet">
     <ItemGroup>
       <NuPackage Include="$(OutputPath)\*.nupkg" Exclude="**\*.symbols.nupkg" />
       <SymbolPackage Condition=" '$(CreateSymbolPackage)'=='true' " Include="$(OutputPath)\*.symbols.nupkg" />
@@ -180,6 +225,36 @@
       <Code Type="Fragment" Language="cs">
         <![CDATA[
           System.IO.Compression.ZipFile.CreateFromDirectory(DirectoryName, ArchiveFileName, System.IO.Compression.CompressionLevel.Optimal, false);
+        ]]></Code>
+    </Task>
+  </UsingTask>
+  <UsingTask TaskName="MoveCoreFolder" TaskFactory="CodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v12.0.dll">
+    <ParameterGroup>
+      <SolutionFolder ParameterType="System.String" Required="true" />
+      <ProjectPath ParameterType="System.String" Required="true" />
+      <SourcePath ParameterType="System.String" Required="true" />
+      <TargetPath ParameterType="System.String" Required="true" />
+      <Configuration ParameterType="System.String" Required="true" />
+    </ParameterGroup>
+    <Task>
+      <Reference Include="System" />
+      <Reference Include="System.IO" />
+      <Code Type="Fragment" Language="cs"><![CDATA[
+          Uri BaseUri = new Uri(SolutionFolder, UriKind.Absolute);
+          Uri TargetUri = new Uri(new FileInfo(ProjectPath).Directory.FullName, UriKind.Absolute);
+          Uri RelativeUri = BaseUri.MakeRelativeUri(TargetUri);
+          string RelativePath = RelativeUri.OriginalString.Replace('/', '\\');
+          if (!string.IsNullOrEmpty(RelativePath))
+          {
+            while (RelativePath.EndsWith("\\"))
+            {
+              RelativePath = RelativePath.Remove(RelativePath.Length - 1, 1);
+            }
+          }
+          string FullSourcePath = Path.Combine(Path.Combine(SourcePath, RelativePath), string.Format(@"bin\{0}\netstandard1.6", Configuration));
+          try {
+            Directory.Move(FullSourcePath, TargetPath);
+          } catch (Exception) { throw new Exception(string.Format("FullSourcePath: {0}, TargetPath: {1}", FullSourcePath, TargetPath)); }
         ]]></Code>
     </Task>
   </UsingTask>
